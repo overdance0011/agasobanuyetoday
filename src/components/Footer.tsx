@@ -46,13 +46,26 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white font-display font-bold mb-6">Translators</h4>
+          <h4 className="text-white font-display font-bold mb-6">Categories</h4>
           <ul className="flex flex-col gap-4 text-sm text-white/50">
-            <li><Link to="/?translator=Rocky Kimomo" className="hover:text-orange-500 transition-colors">Rocky Kimomo</Link></li>
-            <li><Link to="/?translator=Junior Giti" className="hover:text-orange-500 transition-colors">Junior Giti</Link></li>
-            <li><Link to="/?translator=Sankara" className="hover:text-orange-500 transition-colors">Sankara</Link></li>
-            <li><Link to="/?translator=Skovi" className="hover:text-orange-500 transition-colors">Skovi</Link></li>
-            <li><Link to="/?translator=Be the Great" className="hover:text-orange-500 transition-colors">Be the Great</Link></li>
+            <li><Link to="/?category=Action" className="hover:text-orange-500 transition-colors">Action</Link></li>
+            <li><Link to="/?category=Cartoon" className="hover:text-orange-500 transition-colors">Cartoon</Link></li>
+            <li><Link to="/?category=Comedy" className="hover:text-orange-500 transition-colors">Comedy</Link></li>
+            <li><Link to="/?category=Sci-Fi" className="hover:text-orange-500 transition-colors">Sci-Fi</Link></li>
+            <li><Link to="/?category=Horror" className="hover:text-orange-500 transition-colors">Horror</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-white font-display font-bold mb-6">Interpreters</h4>
+          <ul className="flex flex-col gap-4 text-sm text-white/50">
+            <li><Link to="/?interpreter=Rocky Kimomo" className="hover:text-orange-500 transition-colors">Rocky Kimomo</Link></li>
+            <li><Link to="/?interpreter=Junior Giti" className="hover:text-orange-500 transition-colors">Junior Giti</Link></li>
+            <li><Link to="/?interpreter=Sankara" className="hover:text-orange-500 transition-colors">Sankara</Link></li>
+            <li><Link to="/?interpreter=Skovi" className="hover:text-orange-500 transition-colors">Skovi</Link></li>
+            <li><Link to="/?interpreter=Be the Great" className="hover:text-orange-500 transition-colors">Be the Great</Link></li>
+            <li><Link to="/?interpreter=Pati" className="hover:text-orange-500 transition-colors">Pati</Link></li>
+            <li><Link to="/?interpreter=Dany" className="hover:text-orange-500 transition-colors">Dany</Link></li>
           </ul>
         </div>
 

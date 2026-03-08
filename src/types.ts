@@ -5,9 +5,12 @@ export interface Movie {
   thumbnail: string;
   video_url: string;
   category: string;
-  translator: string;
+  interpreter: string;
+  origin: string;
+  duration: string;
   year: number;
   rating: number;
   views: number;
+  type: 'movie' | 'short';
   created_at: string;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Star, Eye, Calendar } from 'lucide-react';
+import { Play, Star, Eye, Calendar, Globe, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import type { Movie } from '../types';
@@ -39,10 +39,45 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             <span className="bg-orange-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
               {movie.category}
             </span>
+            {movie.type === 'short' && (
+              <span className="bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                Short
+              </span>
+            )}
+            {movie.video_url.startsWith('data:') && (
+              <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                Local
+              </span>
+            )}
+            {new Date(movie.created_at).getTime() > Date.now() - 24 * 60 * 60 * 1000 && (
+              <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                New
+              </span>
+            )}
             <span className="bg-black/60 backdrop-blur-md text-white/80 text-[10px] font-medium px-2 py-1 rounded border border-white/10">
-              {movie.translator}
+              {movie.interpreter}
             </span>
           </div>
+
+          {/* Origin Badge */}
+          {movie.origin && (
+            <div className="absolute bottom-3 left-3">
+              <span className="bg-white/10 backdrop-blur-md text-white/90 text-[9px] font-bold px-2 py-1 rounded-full border border-white/10 flex items-center gap-1">
+                <Globe size={10} />
+                {movie.origin}
+              </span>
+            </div>
+          )}
+
+          {/* Duration Badge */}
+          {movie.duration && (
+            <div className="absolute bottom-3 right-3">
+              <span className="bg-black/60 backdrop-blur-md text-white/90 text-[9px] font-bold px-2 py-1 rounded-full border border-white/10 flex items-center gap-1">
+                <Clock size={10} />
+                {movie.duration}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="p-4">

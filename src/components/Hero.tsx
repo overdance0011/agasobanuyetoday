@@ -60,7 +60,7 @@ export default function Hero({ movie }: HeroProps) {
             </div>
             <div className="flex items-center gap-2">
               <span className="bg-white/20 px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase">
-                {movie.translator}
+                {movie.interpreter}
               </span>
             </div>
           </div>

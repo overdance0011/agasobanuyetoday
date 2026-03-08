@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Play, Star, Eye, Calendar, Clock, Share2, ThumbsUp, MessageSquare, ChevronLeft, Loader2, ChevronRight } from 'lucide-react';
+import { Play, Star, Eye, Calendar, Clock, Share2, ThumbsUp, MessageSquare, ChevronLeft, Loader2, ChevronRight, Globe } from 'lucide-react';
 import type { Movie } from '../types';
 import MovieCard from '../components/MovieCard';
 
@@ -8,6 +8,7 @@ export default function MovieDetail() {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [relatedMovies, setRelatedMovies] = useState<Movie[]>([]);
+  const [interpreters, setInterpreters] = useState<{name: string, count: number}[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +24,10 @@ export default function MovieDetail() {
           const relatedData = await relatedRes.json();
           setRelatedMovies(relatedData.filter((m: Movie) => m.id !== parseInt(id!)).slice(0, 5));
         }
+
+        const interpretersRes = await fetch('/api/interpreters');
+        const interpretersData = await interpretersRes.json();
+        setInterpreters(interpretersData.slice(0, 9));
       } catch (error) {
         console.error('Error fetching movie details:', error);
       } finally {
@@ -76,13 +81,38 @@ export default function MovieDetail() {
           {/* Left Column: Video Player & Info */}
           <div className="lg:col-span-2">
             <div className="aspect-video w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 group relative">
-              <iframe
-                src={movie.video_url}
-                title={movie.title}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              {movie.video_url.startsWith('data:') ? (
+                <video 
+                  src={movie.video_url} 
+                  controls 
+                  className="w-full h-full object-contain"
+                  poster={movie.thumbnail}
+                />
+              ) : movie.video_url.includes('tiktok.com') ? (
+                <iframe
+                  src={movie.video_url}
+                  title={movie.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : movie.video_url.includes('instagram.com') ? (
+                <iframe
+                  src={movie.video_url}
+                  title={movie.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <iframe
+                  src={movie.video_url}
+                  title={movie.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )}
             </div>
 
             <div className="mt-10">
@@ -104,6 +134,18 @@ export default function MovieDetail() {
                       <Eye size={18} />
                       <span>{movie.views.toLocaleString()} views</span>
                     </div>
+                    {movie.duration && (
+                      <div className="flex items-center gap-2">
+                        <Clock size={18} />
+                        <span>{movie.duration}</span>
+                      </div>
+                    )}
+                    {movie.origin && (
+                      <div className="flex items-center gap-2">
+                        <Globe size={18} />
+                        <span>{movie.origin}</span>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2">
                       <span className="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                         {movie.category}
@@ -132,16 +174,16 @@ export default function MovieDetail() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/10">
                   <div>
-                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Translator</span>
-                    <span className="font-medium text-orange-500">{movie.translator}</span>
+                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Interpreter</span>
+                    <span className="font-medium text-orange-500">{movie.interpreter}</span>
                   </div>
                   <div>
-                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Genre</span>
-                    <span className="font-medium">{movie.category}</span>
+                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Origin</span>
+                    <span className="font-medium">{movie.origin || 'Unknown'}</span>
                   </div>
                   <div>
-                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Release Year</span>
-                    <span className="font-medium">{movie.year}</span>
+                    <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Duration</span>
+                    <span className="font-medium">{movie.duration || 'Unknown'}</span>
                   </div>
                   <div>
                     <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">Quality</span>
@@ -211,15 +253,15 @@ export default function MovieDetail() {
             </div>
 
             <div className="glass rounded-3xl p-6">
-              <h3 className="text-lg font-display font-bold mb-4">Top Translators</h3>
+              <h3 className="text-lg font-display font-bold mb-4">Top Interpreters</h3>
               <div className="space-y-4">
-                {['Rocky Kimomo', 'Junior Giti', 'Sankara', 'Skovi', 'Be the Great'].map((t) => (
+                {interpreters.map((t) => (
                   <Link
-                    key={t}
-                    to={`/?translator=${t}`}
+                    key={t.name}
+                    to={`/?interpreter=${t.name}`}
                     className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-colors group"
                   >
-                    <span className="text-sm font-medium group-hover:text-orange-500">{t}</span>
+                    <span className="text-sm font-medium group-hover:text-orange-500">{t.name}</span>
                     <ChevronRight size={16} className="text-white/20 group-hover:text-orange-500" />
                   </Link>
                 ))}

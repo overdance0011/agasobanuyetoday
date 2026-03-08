@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Film, User, TrendingUp } from 'lucide-react';
+import { Search, Menu, X, Film, User, TrendingUp, Upload } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -61,18 +61,19 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-sm font-medium hover:text-orange-500 transition-colors">Home</Link>
-          <Link to="/?category=Adventure" className="text-sm font-medium hover:text-orange-500 transition-colors">Adventure</Link>
-          <Link to="/?category=Sci-Fi" className="text-sm font-medium hover:text-orange-500 transition-colors">Sci-Fi</Link>
+          <Link to="/?category=Action" className="text-sm font-medium hover:text-orange-500 transition-colors">Action</Link>
+          <Link to="/?category=Cartoon" className="text-sm font-medium hover:text-orange-500 transition-colors">Cartoon</Link>
+          <Link to="/?category=Comedy" className="text-sm font-medium hover:text-orange-500 transition-colors">Comedy</Link>
           <div className="relative group/dropdown">
             <button className="text-sm font-medium hover:text-orange-500 transition-colors flex items-center gap-1">
-              Translators
+              Interpreters
             </button>
             <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300">
-              <div className="glass rounded-xl p-4 w-48 border border-white/10 shadow-2xl">
-                {['Rocky Kimomo', 'Junior Giti', 'Sankara', 'Skovi', 'Be the Great'].map((t) => (
+              <div className="glass rounded-xl p-4 w-48 border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto">
+                {['Rocky Kimomo', 'Junior Giti', 'Sankara', 'Skovi', 'Be the Great', 'Yanga', 'Pati', 'Dany', 'Zizou'].map((t) => (
                   <Link
                     key={t}
-                    to={`/?translator=${t}`}
+                    to={`/?interpreter=${t}`}
                     className="block py-2 text-xs hover:text-orange-500 transition-colors"
                   >
                     {t}
@@ -96,6 +97,14 @@ export default function Navbar() {
           <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
             <User size={20} />
           </button>
+
+          <Link 
+            to="/upload" 
+            className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 rounded-full text-xs font-bold flex items-center gap-2 transition-all shadow-lg shadow-orange-600/20"
+          >
+            <Upload size={14} />
+            Upload
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -127,15 +136,15 @@ export default function Navbar() {
             </Link>
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Home</Link>
             <Link to="/?category=Action" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Action</Link>
-            <Link to="/?category=Adventure" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Adventure</Link>
-            <Link to="/?category=Sci-Fi" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Sci-Fi</Link>
+            <Link to="/?category=Cartoon" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Cartoon</Link>
+            <Link to="/?category=Comedy" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium">Comedy</Link>
             <div className="pt-4 border-t border-white/10">
-              <span className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-4">Top Translators</span>
-              <div className="grid grid-cols-2 gap-4">
-                {['Rocky Kimomo', 'Junior Giti', 'Sankara', 'Skovi', 'Be the Great'].map((t) => (
+              <span className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-4">Top Interpreters</span>
+              <div className="grid grid-cols-2 gap-4 max-h-48 overflow-y-auto pr-2">
+                {['Rocky Kimomo', 'Junior Giti', 'Sankara', 'Skovi', 'Be the Great', 'Yanga', 'Pati', 'Dany', 'Zizou'].map((t) => (
                   <Link
                     key={t}
-                    to={`/?translator=${t}`}
+                    to={`/?interpreter=${t}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-sm font-medium hover:text-orange-500 transition-colors"
                   >

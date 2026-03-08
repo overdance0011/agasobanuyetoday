@@ -1,18 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ChevronRight, Users } from 'lucide-react';
+import { ChevronRight, Users, Loader2 } from 'lucide-react';
 
-const translators = [
-  { name: 'Rocky Kimomo', image: 'https://picsum.photos/seed/rocky/200/200', count: 124 },
-  { name: 'Junior Giti', image: 'https://picsum.photos/seed/junior/200/200', count: 98 },
-  { name: 'Sankara', image: 'https://picsum.photos/seed/sankara/200/200', count: 76 },
-  { name: 'Skovi', image: 'https://picsum.photos/seed/skovi/200/200', count: 45 },
-  { name: 'Be the Great', image: 'https://picsum.photos/seed/bethegreat/200/200', count: 32 },
-  { name: 'Yanga', image: 'https://picsum.photos/seed/yanga/200/200', count: 156 },
-];
+interface Interpreter {
+  name: string;
+  image: string;
+  count: number;
+}
 
-export default function TranslatorSection() {
+export default function InterpreterSection() {
+  const [interpreters, setInterpreters] = useState<Interpreter[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInterpreters = async () => {
+      try {
+        const response = await fetch('/api/interpreters');
+        const data = await response.json();
+        setInterpreters(data);
+      } catch (error) {
+        console.error('Error fetching interpreters:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInterpreters();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="mt-32 flex items-center justify-center py-20">
+        <Loader2 className="animate-spin text-orange-500" size={32} />
+      </div>
+    );
+  }
+
   return (
     <div className="mt-32">
       <div className="flex items-center justify-between mb-10">
@@ -30,7 +54,7 @@ export default function TranslatorSection() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {translators.map((translator, index) => (
+        {interpreters.map((translator, index) => (
           <motion.div
             key={translator.name}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -39,7 +63,7 @@ export default function TranslatorSection() {
             transition={{ delay: index * 0.1 }}
           >
             <Link
-              to={`/?translator=${translator.name}`}
+              to={`/?interpreter=${translator.name}`}
               className="group flex flex-col items-center text-center"
             >
               <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4">
@@ -52,7 +76,7 @@ export default function TranslatorSection() {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute -bottom-1 right-2 bg-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg">
-                  {translator.count}+
+                  {translator.count}
                 </div>
               </div>
               <h3 className="font-display font-bold text-sm md:text-base group-hover:text-orange-500 transition-colors">
